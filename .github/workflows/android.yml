@@ -5,7 +5,7 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # Allows manual trigger directly from Github mobile/web site
+  workflow_dispatch: # Allows manual run button on GitHub Mobile app/website
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Set up Gradle (Auto-Provisioned)
+    - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: 8.2
@@ -29,7 +29,8 @@ jobs:
     - name: Build Debug APK
       run: |
         cd android
-        gradle assembleDebug --no-daemon
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
